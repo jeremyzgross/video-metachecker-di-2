@@ -11,6 +11,13 @@ interface userData{
 }
 interface User {
   id: number;
+  first_name: string
+  last_name: string
+}
+
+interface userLogin{
+  username: string
+  password: string
 }
 export const _registerUser = async (userData: userData) :Promise <{ user: User }>  => {
 
@@ -50,3 +57,23 @@ export const _registerUser = async (userData: userData) :Promise <{ user: User }
   }
 }
 
+export const _loginUser = async(userLogin:userLogin) :Promise <{user: User}> =>{
+  try{
+    const [user] = await db('users')
+      .select(
+        'users.username',
+        'hashpwd.password',
+        'users.first_name',
+        'users.id'
+      ).where({'users.username': userLogin.username})
+      .leftJoin('hashpwd', 'users.id', 'hashpwd.user_id')
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    return { user };
+  }catch (error) {
+    console.error(error);
+    throw error; //
+  }
+}

@@ -1,4 +1,4 @@
-import { _registerUser } from "../1_Models/model.login.register.js";
+import { _registerUser, _loginUser } from "../1_Models/model.login.register.js";
 
 import express, { Request, Response, NextFunction } from 'express';
 
@@ -13,3 +13,20 @@ export const registerUser = async(req: Request, res: Response, next: NextFunctio
     next(error)
   }
 }
+
+export const loginUser = async(req: Request, res: Response, next: NextFunction)=>{
+  try{
+    const userLogin = req.body
+    console.log(userLogin);
+    
+    const result = await _loginUser(userLogin)
+    const first_name :string = result.user.first_name
+    const id :number = result.user.id
+    res.json({ id, first_name, })
+  }catch(error){
+    console.error('Error login')
+    next(error)
+  }
+}
+
+
