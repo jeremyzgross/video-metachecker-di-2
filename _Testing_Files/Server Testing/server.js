@@ -3,9 +3,10 @@ const multer = require('multer')
 const path = require('path')
 const fs = require('fs')
 const ffmpeg = require('fluent-ffmpeg')
-
+const cors = require('cors')
 const app = express()
 
+app.use(cors())
 // Initialize multer for handling file uploads
 const upload = multer({ dest: 'uploads/' })
 
@@ -61,24 +62,32 @@ const getAudioMetadata = (filePath) => {
 }
 
 // POST route to handle video uploads
-app.post('/api/upload', upload.single('video'), async (req, res) => {
-  const filePath = req.file.path
-
+app.post('/api/upload', upload.single('filename'), async (req, res) => {
+  console.log('IN HEREEEE')
   try {
     // Get video and audio metadata
+    const filePath = req.file.path
     const videoData = await getVideoMetadata(filePath)
     const audioData = await getAudioMetadata(filePath)
 
     // Respond with the metadata and path to the uploaded video
-    res.json({
+    const resJSON = {
       uploadedVideo: filePath,
       videoMetadata: videoData,
       audioMetadata: audioData,
-    })
+    }
+    console.log('Success', resJSON)
+    res.json(resJSON)
   } catch (err) {
     console.error('Error getting metadata:', err)
     res.status(500).send('Error getting metadata')
   }
+})
+
+app.use((err, req, res, next) => {
+  // Handle the error
+  console.error(err.stack)
+  res.status(500).send('Multer Broke')
 })
 
 // Start the server
