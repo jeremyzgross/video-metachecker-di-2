@@ -1,6 +1,6 @@
 import { _registerUser, _loginUser } from "../1_Models/model.login.register.js";
 
-import express, { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from 'express';
 
 
 export const registerUser = async(req: Request, res: Response, next: NextFunction)=>{

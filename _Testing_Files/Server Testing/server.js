@@ -8,11 +8,17 @@ const app = express()
 
 app.use(cors())
 // Initialize multer for handling file uploads
-const upload = multer({ dest: 'uploads/' })
+const upload = multer({
+  dest: 'uploads/',
+  limits: { fileSize: 1000 * 1024 * 1024 },
+})
 
 // Middleware
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
+
+// if you want to serve from the same server
+// app.use(express.static(path.join(__dirname, './Static_Files')))
 
 // get video metadata
 const getVideoMetadata = (filePath) => {

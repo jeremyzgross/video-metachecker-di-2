@@ -10,10 +10,6 @@ document
       const response = await fetch('http://localhost:3000/api/upload', {
         method: 'POST',
         body: formData,
-        // headers: {
-        //   // Add Content-Type header for FormData
-        //   'Content-Type': 'multipart/form-data',
-        // },
       })
       console.log('Form Data:', formData)
       console.log('response', response)
