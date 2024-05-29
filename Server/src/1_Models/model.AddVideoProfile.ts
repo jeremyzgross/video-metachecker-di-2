@@ -4,6 +4,7 @@ import { db } from "../0_Config/config";
 interface VideoProfileMetadata {
     id?: number; // optional because it will be auto-generated
     user_id: number; // NEED TO GET THIS FROM SESSION DATA LATER!!!
+    profile_name: string
     codec_name?: string;
     profile?: string;
     width?: number;
@@ -31,6 +32,7 @@ export const _addVideoProfile = async (VideoProfileMetadata: VideoProfileMetadat
     const [insertedmetaData] = await db('video_metadata').insert(
       {
         user_id: VideoProfileMetadata.user_id,
+        profile_name: VideoProfileMetadata.profile_name,
         codec_name: VideoProfileMetadata.codec_name,
         profile: VideoProfileMetadata.profile,
         width: VideoProfileMetadata.width,
