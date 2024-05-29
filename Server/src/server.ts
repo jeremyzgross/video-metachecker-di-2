@@ -5,6 +5,7 @@ import {router_add_video_profile} from './3_Routes/route.AddVideoProfile.js'
 import { router_get_video_profile } from './3_Routes/route.GetVideoProfile.js'
 import { router_delete_video_profile } from './3_Routes/route.DeleteVideoProfile.js'
 import { router_edit_video_profile } from './3_Routes/route.EditVideoProfile.js'
+import { router_upload_video } from './3_Routes/route.UploadVideo.js'
 const app = express()
 // const postgres = require('postgres')
 //middleware
@@ -19,6 +20,7 @@ app.use('/api', router_add_video_profile);
 app.use('/api', router_get_video_profile);
 app.use('/api', router_delete_video_profile);
 app.use('/api', router_edit_video_profile);
+app.use('/api', router_upload_video);
 
 app.listen(3000, () => {
   console.log('run on 3000!')
