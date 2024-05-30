@@ -1,7 +1,7 @@
 import { db } from "../0_Config/config";
 //add from form data to videoMetadataTable
 
-interface VideoProfileMetadata {
+export interface VideoProfileMetadata {
     id?: number; // optional because it will be auto-generated
     user_id: number; // NEED TO GET THIS FROM SESSION DATA LATER!!!
     profile_name: string

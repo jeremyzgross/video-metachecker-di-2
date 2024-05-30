@@ -1,11 +1,11 @@
 import Ffmpeg from "fluent-ffmpeg";
 
 interface VideoMetadata {
-  video: any; // Adjust the type according to your metadata structure
+  video: any; 
 }
 
 interface AudioMetadata {
-  audio: any; // Adjust the type according to your metadata structure
+  audio: any; 
 }
 
 export const _uploadVideo = async (filepath: string) => {
@@ -58,13 +58,13 @@ export const _uploadVideo = async (filepath: string) => {
           const [videoMetadata, audioMetadata] = results;
           resolve({
             video: videoMetadata.video,
-            audio: audioMetadata.audio,
+            audio: audioMetadata.audio
           });
         })
         .catch((error) => {
           reject(error);
         });
-    } catch (error) {
+      } catch (error) {
       console.error(
         "Something went wrong with the upload. This is in the model",
         error
