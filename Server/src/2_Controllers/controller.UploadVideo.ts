@@ -37,7 +37,7 @@ export const UploadVideo = async (req: Request, res: Response, next: NextFunctio
     };
     const QCResults = await checkVideo(resJSON, user_id, profile_id )
 
-    console.log(QCResults.profile);
+    // console.log(QCResults.profile);
     //need to now get data from QCresults and compare to extracted metadata in allVideoData object
     
 
@@ -59,7 +59,7 @@ const checkVideo = async (resJSON: ResJSON, user_id: number, profile_id:number )
 
       if (!profileToUse) {
       console.error("Profile not found for user_id:", user_id, "and profile_id:", profile_id);
-      return null; // Return null indicating profile not found
+      return null; 
     }
     console.log("Found profile:", profileToUse);
       return profileToUse;
