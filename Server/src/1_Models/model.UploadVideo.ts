@@ -1,18 +1,12 @@
 import Ffmpeg from "fluent-ffmpeg";
+import { VideoMetadataResolve, AudioMetadataResolve } from "../Interfaces/interface";
 
-interface VideoMetadata {
-  video: any; 
-}
-
-interface AudioMetadata {
-  audio: any; 
-}
 
 export const _uploadVideo = async (filepath: string) => {
   return new Promise<{ video: any; audio: any }>((resolve, reject) => {
     try {
       const getVideoMetadata = () => {
-        return new Promise<VideoMetadata>((resolve, reject) => {
+        return new Promise<VideoMetadataResolve>((resolve, reject) => {
           Ffmpeg.ffprobe(filepath, (err, metadata) => {
             if (err) {
               reject(err);
@@ -33,7 +27,7 @@ export const _uploadVideo = async (filepath: string) => {
       };
 
       const getAudioMetadata = () => {
-        return new Promise<AudioMetadata>((resolve, reject) => {
+        return new Promise<AudioMetadataResolve>((resolve, reject) => {
           Ffmpeg.ffprobe(filepath, (err, metadata) => {
             if (err) {
               reject(err);

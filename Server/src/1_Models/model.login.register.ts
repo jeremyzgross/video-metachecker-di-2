@@ -2,23 +2,8 @@ import bcrypt from 'bcrypt'
 // import { Transaction } from 'knex';
 import { db } from '../0_Config/config.js';
 
-interface userData{
-  first_name: string
-  last_name: string
-  username: string
-  email: string
-  password: string
-}
-interface User {
-  id: number;
-  first_name: string
-  last_name: string
-}
+import { userData, User, userLogin } from '../Interfaces/interface.js';
 
-interface userLogin{
-  username: string
-  password: string
-}
 export const _registerUser = async (userData: userData) :Promise <{ user: User }>  => {
 
   let trx

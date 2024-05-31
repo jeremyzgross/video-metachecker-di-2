@@ -1,4 +1,5 @@
-import { _updateVideoProfile, VideoProfileMetadata} from "../1_Models/model.EditVideoProfile";
+import { _updateVideoProfile} from "../1_Models/model.EditVideoProfile";
+import { VideoProfileMetadata } from "../Interfaces/interface";
 
 import { Request, Response, NextFunction } from 'express';
 
