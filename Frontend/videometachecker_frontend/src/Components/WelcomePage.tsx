@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import LoginForm from './LoginForm';
-import RegisterForm from './RegisterForm';
+// import LoginForm from './LoginForm';
+// import RegisterForm from './RegisterForm';
 
 const WelcomePage: React.FC = () => {
   const [isRegistering, setIsRegistering] = useState(false);
@@ -27,7 +27,7 @@ const WelcomePage: React.FC = () => {
   return (
     <div>
       <h1>Welcome to MetaChecker!</h1>
-      <p>Please {isRegistering ? 'register' : 'login'} to continue.</p>
+      {/* <p>Please {isRegistering ? 'register' : 'login'} to continue.</p>
       {isRegistering ? (
         <RegisterForm onSuccess={handleRegisterSuccess} onError={handleRegisterError} />
       ) : (
@@ -35,7 +35,7 @@ const WelcomePage: React.FC = () => {
       )}
       <button onClick={() => setIsRegistering(!isRegistering)}>
         {isRegistering ? 'Already have an account? Login' : "Don't have an account? Register"}
-      </button>
+      </button> */}
     </div>
   );
 };
