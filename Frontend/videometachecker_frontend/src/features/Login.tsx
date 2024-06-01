@@ -25,12 +25,10 @@ const Login: React.FC = ()=>{
       <h1>Login</h1>
         <form onSubmit={handleSubmit}>
           <div>
-            <label>Username:</label>
-            <input type="text" name="username" value={credentials.username} onChange={handleChange} />
+            <input placeholder='Username...' type="text" name="username" value={credentials.username} onChange={handleChange} />
           </div>
           <div>
-            <label>Password:</label>
-            <input type="password" name="password" value={credentials.password} onChange={handleChange} />
+            <input placeholder='Password...'  type="password" name="password" value={credentials.password} onChange={handleChange} />
           </div>
           <button type="submit" disabled={isLoading}>Login</button>
         </form>

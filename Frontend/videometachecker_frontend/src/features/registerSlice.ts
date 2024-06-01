@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 
 export interface RegisterState {
-  firstname: string;
-  lastname: string;
+  first_name: string;
+  last_name: string;
   username: string;
   password: string;
   email: string;
@@ -11,8 +11,8 @@ export interface RegisterState {
 }
 
 const initialState: RegisterState = {
-  firstname: '',
-  lastname: '',
+  first_name: '',
+  last_name: '',
   username: '',
   password: '',
   email: '',
@@ -22,7 +22,7 @@ const initialState: RegisterState = {
 
 export const register = createAsyncThunk(
   'register/userRegister',
-  async (credentials: { firstname: string; lastname: string; username: string; password: string; email: string }, thunkAPI) => {
+  async (credentials: { first_name: string; last_name: string; username: string; password: string; email: string }, thunkAPI) => {
     try {
       const response = await fetch('http://localhost:3000/api/register/', {
         method: 'POST',
@@ -51,8 +51,8 @@ const registerSlice = createSlice({
   initialState,
   reducers: {
     emptyRegister(state) {
-      state.firstname = '';
-      state.lastname = '';
+      state.first_name = '';
+      state.last_name = '';
       state.username = '';
       state.password = '';
       state.email = '';
@@ -65,10 +65,10 @@ const registerSlice = createSlice({
       state.isLoading = true;
       state.error = null;
     });
-    builder.addCase(register.fulfilled, (state, action: PayloadAction<{ firstname: string; lastname: string; username: string; email: string; password: string }>) => {
+    builder.addCase(register.fulfilled, (state, action: PayloadAction<{ first_name: string; last_name: string; username: string; email: string; password: string }>) => {
       state.isLoading = false;
-      state.firstname = action.payload.firstname;
-      state.lastname = action.payload.lastname;
+      state.first_name = action.payload.first_name;
+      state.last_name = action.payload.last_name;
       state.username = action.payload.username;
       state.email = action.payload.email;
       state.password =  action.payload.password
