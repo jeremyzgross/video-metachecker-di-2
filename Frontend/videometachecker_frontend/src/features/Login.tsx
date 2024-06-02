@@ -2,7 +2,10 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector  } from 'react-redux'
 import { RootState, AppDispatch } from '../App/store'
 import { logout, login } from './loginSlice'
+import { useNavigate } from 'react-router-dom';
+
 const Login: React.FC = ()=>{
+  const navigate = useNavigate()
   const dispatch: AppDispatch = useDispatch() //dispatch actions
   const { username, isLoading, error } = useSelector((state: RootState) => state.login); //state values
   const [credentials, setCredentials] = useState({username: '', password: ''})
@@ -14,6 +17,7 @@ const Login: React.FC = ()=>{
    const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     dispatch(login(credentials));
+    navigate('/dashboard')
   };
 
   const handleLogout = () => {

@@ -30,7 +30,7 @@ const Register: React.FC = () => {
 
   return (
     <>
-      <div>Register</div>
+      <h1>Register</h1>
       <div>
         <form onSubmit={handleSubmit}>
           <label> First Name: </label>

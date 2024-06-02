@@ -6,7 +6,7 @@ import { router_get_video_profile } from './3_Routes/route.GetVideoProfile';
 import { router_delete_video_profile } from './3_Routes/route.DeleteVideoProfile';
 import { router_edit_video_profile } from './3_Routes/route.EditVideoProfile';
 import { router_upload_video } from './3_Routes/route.UploadVideo';
-
+import { router_get_all_video_profiles_for_user } from './3_Routes/route.GetAllProfilesforUser';
 const app = express();
 const PORT = 3000;
 
@@ -24,6 +24,7 @@ app.use('/api', router_get_video_profile);
 app.use('/api', router_delete_video_profile);
 app.use('/api', router_edit_video_profile);
 app.use('/api', router_upload_video);
+app.use('/api', router_get_all_video_profiles_for_user);
 
 // error Handling Middleware
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
