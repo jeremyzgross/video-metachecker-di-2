@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '../App/store';
 import { register } from './registerSlice';
+import { useNavigate } from 'react-router-dom';
 
 const Register: React.FC = () => {
+    const navigate = useNavigate()
+
   const dispatch: AppDispatch = useDispatch();
   const { first_name, last_name, username, email, password, isLoading, error } = useSelector((state: RootState) => state.register);
   const [credentials, setCredentials] = useState({
@@ -26,6 +29,7 @@ const Register: React.FC = () => {
       return;
     }
     dispatch(register(credentials));
+     navigate('/dashboard')
   };
 
   return (

@@ -1,46 +1,42 @@
+// src/features/Upload.tsx
+
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '../App/store';
-import { uploadFile, getProfiles } from './uploadSlice';
+import { uploadFile, getProfiles, resetQCResults } from './uploadSlice';
+import Results from './Results';
 
 const Upload: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
 
-  // Extract user_id from login state
   const { user_id } = useSelector((state: RootState) => state.login);
+  const { profiles, loading, error } = useSelector((state: RootState) => state.profiles);
+  const qcResults = useSelector((state: RootState) => state.upload.qcResults);
 
-  // State to hold the selected video file
   const [video, setVideo] = useState<File | null>(null);
-
-  // State to hold the selected profile ID
   const [selectedProfile, setSelectedProfile] = useState<number | null>(null);
 
-  // Extract profiles, loading and error state from profiles state
-  const { profiles, loading, error } = useSelector((state: RootState) => state.profiles);
-
-  // useEffect to fetch profiles when user_id changes
   useEffect(() => {
     if (user_id !== null) {
       dispatch(getProfiles({ user_id }));
+      dispatch(resetQCResults());
     }
   }, [dispatch, user_id]);
 
-  // Handle file input change
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0];
     if (selectedFile) {
       setVideo(selectedFile);
+      dispatch(resetQCResults());
     } else {
       setVideo(null); 
     }
   };
 
-  // Handle profile selection change
   const handleProfileChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedProfile(Number(event.target.value));
   };
 
-  // Handle form submission
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (video && user_id !== null && selectedProfile !== null) {
@@ -72,6 +68,7 @@ const Upload: React.FC = () => {
         {!loading && profiles.length === 0 && <p>No profiles in your records. Please add a profile to use this feature.</p>}
         {!loading && profiles.length > 0 && <p>Please upload a file and select a profile. </p>}
       </div>
+      <Results />
     </>
   );
 };

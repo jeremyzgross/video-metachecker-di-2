@@ -1,9 +1,28 @@
+// uploadSlice.ts
+
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+
+export interface QCResults {
+  codec_name: boolean;
+  profile: boolean;
+  width: boolean;
+  height: boolean;
+  field_order: boolean;
+  r_frame_rate: boolean;
+  duration: boolean;
+  bitrate: boolean;
+  audio_codec_name: boolean;
+  sample_rate: boolean;
+  channels: boolean;
+  channel_layout: boolean;
+  audio_bitrate: boolean;
+}
 
 export interface UploadState {
   file: File | null;
   isLoading: boolean;
   error: string | null;
+  qcResults: QCResults | null;
 }
 
 export interface ProfileState {
@@ -16,6 +35,7 @@ const initialUploadState: UploadState = {
   file: null,
   isLoading: false,
   error: null,
+  qcResults: null,
 };
 
 const initialProfileState: ProfileState = {
@@ -40,9 +60,7 @@ export const uploadFile = createAsyncThunk(
         throw new Error('Network response was not ok');
       }
       const result = await response.json();
-      console.log(result);
       return result;
-      
     } catch (error) {
       console.error('Upload error:', error);
       return thunkAPI.rejectWithValue('Upload failed');
@@ -51,7 +69,7 @@ export const uploadFile = createAsyncThunk(
 );
 
 export const getProfiles = createAsyncThunk(
-  'userProfiles/getProfiles',
+  'profiles/getProfiles',
   async (profileInfo: { user_id: number }, thunkAPI) => {
     try {
       const response = await fetch(`http://localhost:3000/api/user/${profileInfo.user_id}`, {
@@ -61,7 +79,6 @@ export const getProfiles = createAsyncThunk(
         throw new Error('Network response was not ok');
       }
       const result = await response.json();
-
       return result;
     } catch (error) {
       console.error('Profile get error:', error);
@@ -70,20 +87,23 @@ export const getProfiles = createAsyncThunk(
   }
 );
 
-// Define the slice
 const uploadSlice = createSlice({
   name: 'upload',
   initialState: initialUploadState,
-  reducers: {},
+  reducers: {
+    resetQCResults: (state) => {
+      state.qcResults = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(uploadFile.pending, (state) => {
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(uploadFile.fulfilled, (state, action: PayloadAction<File>) => {
+      .addCase(uploadFile.fulfilled, (state, action: PayloadAction<{ QCResults: QCResults }>) => {
         state.isLoading = false;
-        state.file = action.payload;
+        state.qcResults = action.payload.QCResults;
       })
       .addCase(uploadFile.rejected, (state, action) => {
         state.isLoading = false;
@@ -113,5 +133,6 @@ const profileSlice = createSlice({
   },
 });
 
+export const { resetQCResults } = uploadSlice.actions;
 export const uploadReducer = uploadSlice.reducer;
 export const profileReducer = profileSlice.reducer;
