@@ -1,14 +1,19 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
+import { log } from 'console';
 export interface UserLoginState {
   username: string;
   isLoading: boolean;
   error: string | null;
+  first_name: string
+  user_id: number | null
 }
 
 const initialState: UserLoginState = {
   username: '',
   isLoading: false,
   error: null,
+  first_name: '',
+  user_id: null
 };
 
 export const login = createAsyncThunk('login/userLogin', 
@@ -47,9 +52,13 @@ export const loginSlice = createSlice({
       state.isLoading = true
       state.error = null 
     })
-    builder.addCase(login.fulfilled, (state, action: PayloadAction<{username: string}>)=>{
+    builder.addCase(login.fulfilled, (state, action: PayloadAction<{username: string, first_name: string, id: number}>)=>{
       state.isLoading = false
-      state.username = action.payload.username 
+      state.username = action.payload.username
+      state.first_name = action.payload.first_name 
+      state.user_id = action.payload.id
+      
+      
     })
     builder.addCase(login.rejected, (state, action: PayloadAction<any>)=>{
       state.isLoading = false
