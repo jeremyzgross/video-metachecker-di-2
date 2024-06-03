@@ -1,13 +1,13 @@
-// src/features/Results.tsx
-
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../App/store';
-import { QCResults, propertyNamesMap } from './uploadSlice'; 
+import { QCResults, propertyNamesMap, ProbedMetadata } from './uploadSlice'; 
+
 const Results: React.FC = () => {
   const qcResults = useSelector((state: RootState) => state.upload.qcResults);
+  const probedMetadata = useSelector((state: RootState) => state.upload.probedMetadata);
 
-  if (!qcResults) {
+  if (!qcResults || !probedMetadata) {
     return null;
   }
 
@@ -19,6 +19,10 @@ const Results: React.FC = () => {
           <li key={key}>
             <span>{propertyNamesMap[key as keyof QCResults]}:</span>
             <span>{value ? ' Pass' : ' Fail'}</span>
+            {/* Display corresponding metadata */}
+            {key in probedMetadata && (
+              <span> {probedMetadata[key as keyof ProbedMetadata]}</span>
+            )}
           </li>
         ))}
       </ul>

@@ -1,6 +1,7 @@
 // uploadSlice.ts
 
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { act } from 'react';
 
 export interface QCResults {
   codec_name: boolean;
@@ -18,11 +19,27 @@ export interface QCResults {
   audio_bitrate: boolean;
 }
 
+export interface ProbedMetadata {
+  codec_name: string;
+  profile: string;
+  width: number;
+  height: number;
+  field_order: string;
+  r_frame_rate: string;
+  duration: number;
+  bitrate: number;
+  audio_codec_name: string;
+  sample_rate: number;
+  channels: number;
+  channel_layout: string;
+  audio_bitrate: number;
+}
 export interface UploadState {
   file: File | null;
   isLoading: boolean;
   error: string | null;
   qcResults: QCResults | null;
+  probedMetadata: ProbedMetadata | null
 }
 
 export interface ProfileState {
@@ -38,6 +55,7 @@ const initialUploadState: UploadState = {
   isLoading: false,
   error: null,
   qcResults: null,
+  probedMetadata: null
 };
 
 const initialProfileState: ProfileState = {
@@ -80,7 +98,10 @@ export const uploadFile = createAsyncThunk(
         throw new Error('Network response was not ok');
       }
       const result = await response.json();
+      console.log(result);
       return result;
+
+      
     } catch (error) {
       console.error('Upload error:', error);
       return thunkAPI.rejectWithValue('Upload failed');
@@ -121,10 +142,26 @@ const uploadSlice = createSlice({
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(uploadFile.fulfilled, (state, action: PayloadAction<{ QCResults: QCResults }>) => {
-        state.isLoading = false;
-        state.qcResults = action.payload.QCResults;
-      })
+      .addCase(uploadFile.fulfilled, (state, action: PayloadAction<{ QCResults: QCResults, resJSON: any }>) => {
+  state.isLoading = false;
+  state.qcResults = action.payload.QCResults;
+  state.probedMetadata = {
+    codec_name: action.payload.resJSON.allVideoData.video.codec_name,
+    profile: action.payload.resJSON.allVideoData.video.profile,
+    width: action.payload.resJSON.allVideoData.video.width,
+    height: action.payload.resJSON.allVideoData.video.height,
+    field_order: action.payload.resJSON.allVideoData.video.field_order,
+    r_frame_rate: action.payload.resJSON.allVideoData.video.r_frame_rate,
+    duration: action.payload.resJSON.allVideoData.video.duration,
+    bitrate: action.payload.resJSON.allVideoData.video.bit_rate,
+    audio_codec_name: action.payload.resJSON.allVideoData.audio.codec_name,
+    sample_rate: action.payload.resJSON.allVideoData.audio.sample_rate,
+    channels: action.payload.resJSON.allVideoData.audio.channels,
+    channel_layout: action.payload.resJSON.allVideoData.audio.channel_layout,
+    audio_bitrate: action.payload.resJSON.allVideoData.audio.bit_rate,
+  };
+})
+
       .addCase(uploadFile.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
