@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
-import { log } from 'console';
 export interface UserLoginState {
   username: string;
   isLoading: boolean;

@@ -8,7 +8,7 @@ import storage from 'redux-persist/lib/storage';
 import { combineReducers } from 'redux';
 import { uploadReducer } from '../features/uploadSlice';
 import { profileReducer } from '../features/uploadSlice';
-
+import addProfileReducer from "../features/AddProfileSlice"
 const persistConfig = {
   key: 'root',
   storage,
@@ -19,6 +19,7 @@ const rootReducer = combineReducers({
   register: registerReducer,
   upload: uploadReducer,
   profiles: profileReducer,
+  addProfile: addProfileReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
