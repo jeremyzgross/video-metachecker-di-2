@@ -15,10 +15,14 @@ export const compareVideoMetadataFunction = (resJSON: ResJSON, videoProfileInter
 
     // Compare each field in videoProfileInterface
     Object.entries(videoProfileInterface).forEach(([key, value]) => {
-        if (value === null) {
-            comparisons[key] = true; // Treat NULL values as matching because if they are null, then there is nothing to compare
+        if (value === null || value === undefined) {
+            comparisons[key] = true; // Treat null or undefined values as a match
         } else if (key === "bitrate" || key === "audio_bitrate") { //special case for ranges
             comparisons[key] = isWithinRange(value, key === "bitrate" ? videoBitRateKbps : audioBitRateKbps);
+        } else if (key === "audio_codec_name") { //issues with aac codec name
+            const probedAudioCodecName = (resJSON.allVideoData.audio as AudioMetadata).codec_name.toLowerCase().trim();
+            const expectedAudioCodecName = value.toLowerCase().trim();
+            comparisons[key] = probedAudioCodecName === expectedAudioCodecName;
         } else {
             comparisons[key] = (resJSON.allVideoData.video as VideoMetadata)[key] === value || (resJSON.allVideoData.audio as AudioMetadata)[key] === value;
         }
