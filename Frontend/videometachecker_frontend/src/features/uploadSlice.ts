@@ -31,6 +31,8 @@ export interface ProfileState {
   error: string | null;
 }
 
+
+
 const initialUploadState: UploadState = {
   file: null,
   isLoading: false,
@@ -43,6 +45,24 @@ const initialProfileState: ProfileState = {
   loading: false,
   error: null,
 };
+//change interface to "readable names" for user from "metadata"
+export const propertyNamesMap: { [key in keyof QCResults]: string } = {
+  codec_name: 'Video Codec',
+  profile: 'Video Profile',
+  width: 'Width',
+  height: 'Height',
+  field_order: 'Field Order',
+  r_frame_rate: 'Frame Rate',
+  duration: 'Video Duration',
+  bitrate: 'Video Bitrate',
+  audio_codec_name: 'Audio Codec',
+  sample_rate: 'Audio Sample Rate',
+  channels: 'Audio Channels Number',
+  channel_layout: 'Audio Channels Layout',
+  audio_bitrate: 'Audio Bitrate',
+};
+
+
 
 export const uploadFile = createAsyncThunk(
   'upload/uploadFile',
