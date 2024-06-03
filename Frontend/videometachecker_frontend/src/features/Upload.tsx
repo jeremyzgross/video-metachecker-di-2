@@ -11,7 +11,7 @@ const Upload: React.FC = () => {
 
   const { user_id } = useSelector((state: RootState) => state.login);
   const { profiles, loading, error } = useSelector((state: RootState) => state.profiles);
-  const qcResults = useSelector((state: RootState) => state.upload.qcResults);
+  // const qcResults = useSelector((state: RootState) => state.upload.qcResults);
 
   const [video, setVideo] = useState<File | null>(null);
   const [selectedProfile, setSelectedProfile] = useState<number | null>(null);

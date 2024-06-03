@@ -11,6 +11,7 @@ const Dashboard: React.FC = () => {
   const navigate = useNavigate()
 
   const { first_name } = useSelector((state: RootState) => state.login);
+  
   const handleProfilesClick = () => {
     navigate('/Profiles');
   };

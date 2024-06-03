@@ -2,6 +2,8 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 
 // Reminder to add user ID from login state into the form that is being submitted
 export interface VideoProfileFormData {
+  user_id: number| null
+  profile_name: string,
   codec_name: string | null;
   profile: string | null;
   width: number | null;
@@ -29,6 +31,8 @@ interface VideoProfileState {
 
 const initialState: VideoProfileState = {
   data: {
+    user_id: 0,
+    profile_name: '',
     codec_name: null,
     profile: null,
     width: null,
@@ -79,6 +83,8 @@ export const addProfileSlice = createSlice({
   reducers: {
     emptyVideoProfileFormData(state) {
       state.data = {
+        user_id: 0,
+         profile_name: '',
         codec_name: null,
         profile: null,
         width: null,

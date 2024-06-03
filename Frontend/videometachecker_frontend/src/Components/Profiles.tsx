@@ -1,12 +1,21 @@
 import React from 'react'
 import AddProfile from '../features/AddProfile'
-const Profiles : React.FC = ()=>{
+import { useNavigate } from 'react-router-dom';
 
+
+
+const Profiles : React.FC = ()=>{
+  const navigate = useNavigate()
+
+  const handleDashboardClick = () => {
+    navigate('/dashboard');
+  };
 
   return (
     <>
     <h1>Profiles Page</h1>
     <AddProfile/>
+    <button  onClick={handleDashboardClick}>Dashboard</button>
     </>
   )
 }
