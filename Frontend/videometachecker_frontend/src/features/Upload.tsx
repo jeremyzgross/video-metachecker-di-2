@@ -1,17 +1,14 @@
-// src/features/Upload.tsx
-
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '../App/store';
 import { uploadFile, getProfiles, resetQCResults } from './uploadSlice';
 import Results from './Results';
-
+import '../styles/upload.css'
 const Upload: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
 
   const { user_id } = useSelector((state: RootState) => state.login);
   const { profiles, loading, error } = useSelector((state: RootState) => state.profiles);
-  // const qcResults = useSelector((state: RootState) => state.upload.qcResults);
 
   const [video, setVideo] = useState<File | null>(null);
   const [selectedProfile, setSelectedProfile] = useState<number | null>(null);
@@ -46,30 +43,28 @@ const Upload: React.FC = () => {
   };
 
   return (
-    <>
-      <div>
-        <h1>File upload form</h1>
-        <form onSubmit={handleSubmit} className="upload-video" encType="multipart/form-data">
-          <input onChange={handleFileChange} type="file" name="filename" />
-          {profiles && profiles.length > 0 && (
+    <div className="upload-container">
+      <h1>File Upload Form</h1>
+      <form onSubmit={handleSubmit} className="upload-video" encType="multipart/form-data">
+        <input onChange={handleFileChange} type="file" name="filename" />
+        {profiles && profiles.length > 0 && (
           <select onChange={handleProfileChange} value={selectedProfile ?? ''}>
-              <option value="" disabled>Select Profile</option>
-              {profiles.map((profile) => (
-                <option key={profile.id} value={profile.id}>
-                  {profile.profile_name} 
-                </option>
-              ))}
-            </select>
-          )}
-          <input type="submit" value="Check Metadata" disabled={!profiles || profiles.length === 0} />
-        </form>
-        {loading && <p>Loading profiles...</p>}
-        {error && <p>Error loading profiles: {error}</p>}
-        {!loading && profiles.length === 0 && <p>No profiles in your records. Please add a profile to use this feature.</p>}
-        {!loading && profiles.length > 0 && <p>Please upload a file and select a profile. </p>}
-      </div>
+            <option value="" disabled>Select Profile</option>
+            {profiles.map((profile) => (
+              <option key={profile.id} value={profile.id}>
+                {profile.profile_name} 
+              </option>
+            ))}
+          </select>
+        )}
+        <input type="submit" value="Check Metadata" disabled={!profiles || profiles.length === 0} />
+      </form>
+      {loading && <p>Loading profiles...</p>}
+      {error && <p>Error loading profiles: {error}</p>}
+      {!loading && profiles.length === 0 && <p>No profiles in your records. Please add a profile to use this feature.</p>}
+      {!loading && profiles.length > 0 && <p>Please upload a file and select a profile.</p>}
       <Results />
-    </>
+    </div>
   );
 };
 

@@ -14,11 +14,15 @@ const Login: React.FC = ()=>{
     const { name, value } = e.target;
     setCredentials((prev) => ({ ...prev, [name]: value }));
   };
-   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    dispatch(login(credentials));
-    navigate('/dashboard')
-  };
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  try {
+    await dispatch(login(credentials));
+    navigate('/dashboard');
+  } catch (error) {
+    console.error('Login failed:', error);
+  }
+};
 
   const handleLogout = () => {
     dispatch(logout());
@@ -29,10 +33,10 @@ const Login: React.FC = ()=>{
       <h1>Login</h1>
         <form onSubmit={handleSubmit}>
           <div>
-            <input placeholder='Username...' type="text" name="username" value={credentials.username} onChange={handleChange} />
+            <input required placeholder='Username...' type="text" name="username" value={credentials.username} onChange={handleChange} />
           </div>
           <div>
-            <input placeholder='Password...'  type="password" name="password" value={credentials.password} onChange={handleChange} />
+            <input required placeholder='Password...'  type="password" name= "password" value={credentials.password} onChange={handleChange} />
           </div>
           <button type="submit" disabled={isLoading}>Login</button>
         </form>
