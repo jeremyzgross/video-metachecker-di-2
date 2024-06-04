@@ -13,7 +13,12 @@ export const _registerUser = async (userData: userData) :Promise <{ user: User }
 
     trx = await db.transaction()
 
-  const [user] = await trx('users').insert(
+    const existingUser = await trx('users').where('username', userData.username).first()
+
+    if (existingUser) {
+      throw new Error('Username is already taken')
+    }
+    const [user] = await trx('users').insert(
     {
         first_name: userData.first_name,
         last_name: userData.last_name,

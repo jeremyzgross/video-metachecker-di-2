@@ -5,7 +5,7 @@ import { register } from './registerSlice';
 import { useNavigate } from 'react-router-dom';
 
 const Register: React.FC = () => {
-    const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const dispatch: AppDispatch = useDispatch();
   const { first_name, last_name, username, email, password, isLoading, error } = useSelector((state: RootState) => state.register);
@@ -29,7 +29,7 @@ const Register: React.FC = () => {
       return;
     }
     dispatch(register(credentials));
-     navigate('/dashboard')
+    navigate('/dashboard')
   };
 
   return (
@@ -55,7 +55,7 @@ const Register: React.FC = () => {
           <button type="submit">Register</button>
         </form>
         {isLoading && <p>Loading...</p>}
-        {error && <p>{error}</p>}
+        {error && <p style={{ color: 'red' }}>{error}</p>}
       </div>
     </>
   );

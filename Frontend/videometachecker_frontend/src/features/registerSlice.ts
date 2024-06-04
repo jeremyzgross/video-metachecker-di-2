@@ -41,7 +41,7 @@ export const register = createAsyncThunk(
       return result;
     } catch (error) {
       console.error('Register error:', error);
-      return thunkAPI.rejectWithValue('Register failed');
+      return thunkAPI.rejectWithValue('Register failed user may already be taken');
     }
   }
 );
