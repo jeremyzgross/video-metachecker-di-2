@@ -21,7 +21,7 @@ const AddProfile: React.FC = () => {
     duration: 600,
     bitrate_min: 1900,
     bitrate_max: 3000,
-    audio_codec_name: 'aac',
+    audio_codec_name: 'aac', // Default audio codec for h264
     sample_rate: 48000,
     channels: 2,
     channel_layout: 'stereo',
@@ -40,7 +40,7 @@ const AddProfile: React.FC = () => {
     }
   }, [user_id]);
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
   };
@@ -67,7 +67,7 @@ const AddProfile: React.FC = () => {
           duration: 600,
           bitrate_min: 1900,
           bitrate_max: 3000,
-          audio_codec_name: 'aac',
+          audio_codec_name: 'aac', // Reset to default audio codec for h264
           sample_rate: 48000,
           channels: 2,
           channel_layout: 'stereo',
@@ -80,6 +80,35 @@ const AddProfile: React.FC = () => {
     });
   };
 
+  // Options for audio codec based on selected video codec
+  const audioCodecOptions = formData.codec_name === 'h264'
+    ? [
+        { shortName: 'aac', longName: 'AAC' },
+        { shortName: 'mp3', longName: 'MP3' }
+      ]
+    : [
+        { shortName: 'pcm_alaw', longName: 'PCM A-law' },
+        { shortName: 'pcm_f32be', longName: 'PCM 32-bit floating-point big-endian' },
+        { shortName: 'pcm_f32le', longName: 'PCM 32-bit floating-point little-endian' },
+        { shortName: 'pcm_f64be', longName: 'PCM 64-bit floating-point big-endian' },
+        { shortName: 'pcm_f64le', longName: 'PCM 64-bit floating-point little-endian' },
+        { shortName: 'pcm_mulaw', longName: 'PCM mu-law' },
+        { shortName: 'pcm_s16be', longName: 'PCM signed 16-bit big-endian' },
+        { shortName: 'pcm_s16le', longName: 'PCM signed 16-bit little-endian' },
+        { shortName: 'pcm_s24be', longName: 'PCM signed 24-bit big-endian' },
+        { shortName: 'pcm_s24le', longName: 'PCM signed 24-bit little-endian' },
+        { shortName: 'pcm_s32be', longName: 'PCM signed 32-bit big-endian' },
+        { shortName: 'pcm_s32le', longName: 'PCM signed 32-bit little-endian' },
+        { shortName: 'pcm_s8', longName: 'PCM signed 8-bit' },
+        { shortName: 'pcm_u16be', longName: 'PCM unsigned 16-bit big-endian' },
+        { shortName: 'pcm_u16le', longName: 'PCM unsigned 16-bit little-endian' },
+        { shortName: 'pcm_u24be', longName: 'PCM unsigned 24-bit big-endian' },
+        { shortName: 'pcm_u24le', longName: 'PCM unsigned 24-bit little-endian' },
+        { shortName: 'pcm_u32be', longName: 'PCM unsigned 32-bit big-endian' },
+        { shortName: 'pcm_u32le', longName: 'PCM unsigned 32-bit little-endian' },
+        { shortName: 'pcm_u8', longName: 'PCM unsigned 8-bit' }
+      ];
+
   return (
     <>
       <h3>Profile Form:</h3>
@@ -91,7 +120,10 @@ const AddProfile: React.FC = () => {
         <br />
         <label>
           Codec Name:
-          <input type="text" name="codec_name" value={formData.codec_name ?? ''} onChange={handleInputChange} />
+          <select name="codec_name" value={formData.codec_name ?? ''} onChange={handleInputChange}>
+            <option value="h264">h264</option>
+            <option value="prores">prores</option>
+          </select>
         </label>
         <br />
         <label>
@@ -102,12 +134,12 @@ const AddProfile: React.FC = () => {
         <label>
           Width:
           <input type="number" name="width" value={formData.width ?? ''} onChange={handleInputChange} />
-        px </label>
+          px </label>
         <br />
         <label>
           Height:
           <input type="number" name="height" value={formData.height ?? ''} onChange={handleInputChange} />
-        px </label>
+          px </label>
         <br />
         <label>
           Field Order:
@@ -116,8 +148,8 @@ const AddProfile: React.FC = () => {
         <br />
         <label>
           Frame Rate:
-          <input type="text" name="r_frame_rate" value={formData.r_frame_rate ?? ''} onChange={handleInputChange} /> 
-        fps</label>
+          <input type="text" name="r_frame_rate" value={formData.r_frame_rate ?? ''} onChange={handleInputChange} />
+          fps</label>
         <br />
         <label>
           Duration:
@@ -127,22 +159,26 @@ const AddProfile: React.FC = () => {
         <label>
           Video Bitrate (Min):
           <input type="number" name="bitrate_min" value={formData.bitrate_min ?? ''} onChange={handleInputChange} />
-        Kbps</label>
+          Kbps</label>
         <br />
         <label>
           Video Bitrate (Max):
           <input type="number" name="bitrate_max" value={formData.bitrate_max ?? ''} onChange={handleInputChange} />
-        Kbps</label>
+          Kbps</label>
         <br />
         <label>
           Audio Codec Name:
-          <input type="text" name="audio_codec_name" value={formData.audio_codec_name ?? ''} onChange={handleInputChange} />
+          <select name="audio_codec_name" value={formData.audio_codec_name ?? ''} onChange={handleInputChange}>
+            {audioCodecOptions.map(option => (
+              <option key={option.shortName} value={option.shortName}>{option.longName}</option>
+            ))}
+          </select>
         </label>
         <br />
         <label>
           Sample Rate:
           <input type="number" name="sample_rate" value={formData.sample_rate ?? ''} onChange={handleInputChange} />
-        Hz</label>
+          Hz</label>
         <br />
         <label>
           Channels:
@@ -157,19 +193,18 @@ const AddProfile: React.FC = () => {
         <label>
           Audio Bitrate (Min):
           <input type="number" name="audio_bitrate_min" value={formData.audio_bitrate_min ?? ''} onChange={handleInputChange} />
-        Kbps</label>
+          Kbps</label>
         <br />
         <label>
           Audio Bitrate (Max):
           <input type="number" name="audio_bitrate_max" value={formData.audio_bitrate_max ?? ''} onChange={handleInputChange} />
-        Kbps</label>
+          Kbps</label>
         <br />
         <button type="submit">Submit Profile</button>
       </form>
       {status === 'loading' && <p>Loading...</p>}
       {status === 'succeeded' && successMessage && <p>{successMessage} Go back to dashboard to use</p>}
       {status === 'failed' && <p>Error: {error}</p>}
-
     </>
   );
 };
