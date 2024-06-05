@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 
-// Reminder to add user ID from login state into the form that is being submitted
 export interface VideoProfileFormData {
   user_id: number| null
   profile_name: string,

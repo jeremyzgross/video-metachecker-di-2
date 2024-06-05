@@ -1,9 +1,7 @@
-// WelcomePage.tsx
-
 import React, { useState } from 'react';
 import Login from '../features/Login';
 import Register from '../features/Register';
-import '../styles/WelcomePage.css'; // Import CSS file for styling
+import '../styles/WelcomePage.css';
 
 const WelcomePage: React.FC = () => {
   const [isRegistering, setIsRegistering] = useState(false);

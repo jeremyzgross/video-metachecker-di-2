@@ -19,7 +19,7 @@ const Results: React.FC = () => {
   // Helper function to format frame rate
   const formatFrameRate = (frameRate: string): string => {
   const [numerator] = frameRate.split('/');
-  const fps = Number(numerator) / 1000; // dividing by 1000 to remove extra zeros after split
+  const fps = Number(numerator) / 1000; 
   return fps.toString(); // 
 };
 

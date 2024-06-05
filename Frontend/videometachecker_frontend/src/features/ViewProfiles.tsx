@@ -120,14 +120,14 @@ useEffect(() => {
             </tbody>
           </table>
            {deleteMessage && <p>{deleteMessage}</p>}
-          <button onClick={handleDeleteConfirmation}>Delete Profile</button>
+          <button style={{backgroundColor: "red"}} className='delete-button' onClick={handleDeleteConfirmation}>Delete Profile</button>
         </div>
       )}
       {showConfirmation && (
         <div>
           <p>Are you sure you want to delete this profile?</p>
-          <button onClick={handleProfileDelete}>Yes</button>
-          <button onClick={handleDeleteCancel}>No</button>
+          <button style={{backgroundColor: "red"}} className='delete-button' onClick={handleProfileDelete}>Yes</button>
+          <button style={{backgroundColor: "red"}} className='delete-button' onClick={handleDeleteCancel}>No</button>
         </div>
       )}
     </>

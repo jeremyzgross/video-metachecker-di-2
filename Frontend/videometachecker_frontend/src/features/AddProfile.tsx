@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../App/store';
 import { addProfile } from './AddProfileSlice';
 import { VideoProfileFormData } from './AddProfileSlice';
-import '../styles/addProfiles.css';  // Import the CSS file
+import '../styles/addProfiles.css';  
 
 const AddProfile: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -34,7 +34,6 @@ const AddProfile: React.FC = () => {
 
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-  // sets user_id from state of login
   useEffect(() => {
     if (user_id) {
       setFormData((prevData) => ({ ...prevData, user_id }));

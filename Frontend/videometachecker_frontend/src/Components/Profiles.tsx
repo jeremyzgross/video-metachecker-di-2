@@ -1,8 +1,8 @@
 import React from 'react'
 import AddProfile from '../features/AddProfile'
-import { useNavigate } from 'react-router-dom';
-import { logout } from '../features/loginSlice';
-import { persistor } from '../App/store';
+// import { useNavigate } from 'react-router-dom';
+// import { logout } from '../features/loginSlice';
+// import { persistor } from '../App/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../App/store';
 import NotFound from './NotFound'; 

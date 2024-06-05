@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk, createAction, PayloadAction } from '@reduxjs/toolkit';
 
-// Define the interface for ViewProfile with the desired properties
 export interface ViewProfile {
   profile_name: string;
   codec_name: string | null;
@@ -22,7 +21,7 @@ export interface ViewProfile {
   audio_bitrate: [number | null, number | null];
 }
 
-// Define the initial state for ViewProfile
+// initial state for ViewProfile
 interface ViewProfileState {
   data: ViewProfile;
   status: 'idle' | 'loading' | 'succeeded' | 'failed';

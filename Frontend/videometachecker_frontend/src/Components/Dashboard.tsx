@@ -54,7 +54,7 @@ import Navbar from './Navbar';
 
 const Dashboard: React.FC = () => {
   const { first_name } = useSelector((state: RootState) => state.login)
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
      const isLoggedIn = !!first_name; // Check if first_name is truthy
 
   if (!isLoggedIn) {
