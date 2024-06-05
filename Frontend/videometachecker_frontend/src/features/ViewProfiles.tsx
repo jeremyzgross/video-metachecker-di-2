@@ -3,26 +3,59 @@ import { RootState, AppDispatch } from '../App/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProfiles } from './uploadSlice';
 import { viewProfile, ViewProfile } from './ViewProfilesSlice'; 
-
+import { deleteProfile } from './ViewProfilesSlice';
+import { useNavigate } from 'react-router-dom';
+import { clearViewProfile } from './ViewProfilesSlice';
+import Navbar from '../Components/Navbar';
 const ViewProfiles: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate()
   const { user_id } = useSelector((state: RootState) => state.login);
   const { profiles, error } = useSelector((state: RootState) => state.profiles);
   const { data, status } = useSelector((state: RootState) => state.viewProfile);
 
   const [selectedProfile, setSelectedProfile] = useState<number | null>(null);
+  const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
+  const [deleteMessage, setDeleteMessage] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (user_id !== null) {
-      dispatch(getProfiles({ user_id }));
-    }
-  }, [dispatch, user_id]);
+useEffect(() => {
+  if (user_id !== null) {
+    dispatch(getProfiles({ user_id }));
+  }
+  // clear the profiles space
+  return () => {
+    dispatch(clearViewProfile());
+  };
+}, [dispatch, user_id]);
 
   const handleProfileChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedProfileId = Number(event.target.value);
     setSelectedProfile(selectedProfileId);
     if (user_id !== null && selectedProfileId !== null) {
       dispatch(viewProfile({ user_id, profile_id: selectedProfileId }));
+    }
+  };
+
+  const handleDeleteConfirmation = () => {
+    setShowConfirmation(true);
+  };
+
+  const handleDeleteCancel = () => {
+    setShowConfirmation(false);
+  };
+
+  const handleProfileDelete = () => {
+    setShowConfirmation(false);
+    if (user_id !== null && selectedProfile !== null) {
+      dispatch(deleteProfile({ user_id, profile_id: selectedProfile })).then((resultAction) => {
+        if (deleteProfile.fulfilled.match(resultAction)) {
+          setDeleteMessage('Profile deleted');
+          setTimeout(() => {
+            setDeleteMessage(null);
+            navigate('/dashboard');
+          }, 2000); // Display the message for 2 seconds before navigating back
+        }
+      });
     }
   };
 
@@ -53,12 +86,13 @@ const ViewProfiles: React.FC = () => {
 
   return (
     <>
+    <Navbar/>
       <h1>View Profiles</h1>
       <select onChange={handleProfileChange} value={selectedProfile ?? ''}>
         <option value="" disabled>
           Select Profile
         </option>
-                {profiles.map((profile) => (
+        {profiles.map((profile) => (
           <option key={profile.id} value={profile.id}>
             {profile.profile_name}
           </option>
@@ -85,6 +119,15 @@ const ViewProfiles: React.FC = () => {
               ))}
             </tbody>
           </table>
+           {deleteMessage && <p>{deleteMessage}</p>}
+          <button onClick={handleDeleteConfirmation}>Delete Profile</button>
+        </div>
+      )}
+      {showConfirmation && (
+        <div>
+          <p>Are you sure you want to delete this profile?</p>
+          <button onClick={handleProfileDelete}>Yes</button>
+          <button onClick={handleDeleteCancel}>No</button>
         </div>
       )}
     </>
@@ -92,4 +135,3 @@ const ViewProfiles: React.FC = () => {
 };
 
 export default ViewProfiles;
-

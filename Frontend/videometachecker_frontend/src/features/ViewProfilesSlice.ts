@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, createAction, PayloadAction } from '@reduxjs/toolkit';
 
 // Define the interface for ViewProfile with the desired properties
 export interface ViewProfile {
@@ -74,6 +74,25 @@ export const viewProfile = createAsyncThunk(
   }
 );
 
+export const deleteProfile = createAsyncThunk(
+  'viewProfile/deleteProfile',
+  async ({ user_id, profile_id }: { user_id: number; profile_id: number }, thunkAPI) => {
+    try {
+      const response = await fetch(`http://localhost:3000/api/user/${user_id}/profile/${profile_id}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return profile_id;
+    } catch (error) {
+      console.error('Profile delete error:', error);
+      return thunkAPI.rejectWithValue('Profile delete failed');
+    }
+  }
+);
+
+export const clearViewProfile = createAction('viewProfile/clear');
 // Export the slice
 const viewProfileSlice = createSlice({
   name: 'viewProfile',
@@ -92,9 +111,14 @@ const viewProfileSlice = createSlice({
       .addCase(viewProfile.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload as string;
+      })
+      .addCase(clearViewProfile, (state) => {
+        // Reset the state to initial values clearing the profile space
+        state.data = initialState.data;
+        state.status = initialState.status;
+        state.error = initialState.error;
       });
   },
 });
 
-// Export the reducer
 export default viewProfileSlice.reducer;
