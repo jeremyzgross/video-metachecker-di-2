@@ -9,6 +9,7 @@ import { combineReducers } from 'redux';
 import { uploadReducer } from '../features/uploadSlice';
 import { profileReducer } from '../features/uploadSlice';
 import addProfileReducer from "../features/AddProfileSlice"
+import viewProfileReducer, { viewProfile } from "../features/ViewProfilesSlice"
 const persistConfig = {
   key: 'root',
   storage,
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
   upload: uploadReducer,
   profiles: profileReducer,
   addProfile: addProfileReducer,
+  viewProfile: viewProfileReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

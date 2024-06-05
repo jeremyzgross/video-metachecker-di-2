@@ -1,7 +1,4 @@
-// uploadSlice.ts
-
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { act } from 'react';
 
 export interface QCResults {
   codec_name: boolean;

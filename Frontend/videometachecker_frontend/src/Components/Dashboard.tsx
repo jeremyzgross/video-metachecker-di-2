@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { persistor } from '../App/store';
 import Upload from '../features/Upload';
 import NotFound from './NotFound'; 
+import ViewProfiles from '../features/ViewProfiles';
 import '../styles/dashboard.css'
 
 const Dashboard: React.FC = () => {
@@ -16,6 +17,10 @@ const Dashboard: React.FC = () => {
   const handleProfilesClick = () => {
     navigate('/Profiles');
   };
+
+  const handleViewProfilesClick = ()=>{
+    navigate('/viewprofiles')
+  }
    const isLoggedIn = !!first_name; // Check if first_name is truthy
 
   if (!isLoggedIn) {
@@ -33,7 +38,8 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="dashboard-container">
-      <button onClick={handleProfilesClick}>Profiles</button>
+      <button onClick={handleProfilesClick}> Add Profiles</button>
+      <button onClick={handleViewProfilesClick}>View Profiles</button>
       <button onClick={logOutHandler}>Logout</button>
       <h1>Welcome to the Dashboard, {first_name}!</h1>
       <Upload />
