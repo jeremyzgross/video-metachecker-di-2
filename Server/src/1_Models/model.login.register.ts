@@ -25,7 +25,7 @@ export const _registerUser = async (userData: userData) :Promise <{ user: User }
         username:  userData.username,
         email:  userData.email,
       },
-      ['id']
+      ['id', 'username', 'email', 'first_name', 'last_name']
     )
 
     await trx('hashpwd').insert({

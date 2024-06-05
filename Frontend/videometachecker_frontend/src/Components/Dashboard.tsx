@@ -19,9 +19,7 @@ const Dashboard: React.FC = () => {
    const isLoggedIn = !!first_name; // Check if first_name is truthy
 
   if (!isLoggedIn) {
-    // navigate('/404'); // Redirect to the 404 page if not logged in
-    // return null; // Render nothing for this component
-        return <NotFound />; // Render the NotFound component if not logged in
+        return <NotFound />; 
   }
 
   const logOutHandler = () => {
@@ -35,10 +33,10 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="dashboard-container">
+      <button onClick={handleProfilesClick}>Profiles</button>
       <button onClick={logOutHandler}>Logout</button>
       <h1>Welcome to the Dashboard, {first_name}!</h1>
       <Upload />
-      <button onClick={handleProfilesClick}>Profiles</button>
     </div>
   );
 };

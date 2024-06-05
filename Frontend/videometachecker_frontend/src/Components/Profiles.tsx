@@ -33,10 +33,11 @@ const Profiles : React.FC = ()=>{
 
   return (
     <>
-          <button onClick={logOutHandler}>Logout</button>
+
     <h1>Profiles Page</h1>
-    <AddProfile/>
     <button  onClick={handleDashboardClick}>Dashboard</button>
+    <button onClick={logOutHandler}>Logout</button>
+    <AddProfile/>
     </>
   )
 }

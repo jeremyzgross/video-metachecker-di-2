@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { setUser } from './loginSlice';
 
 export interface RegisterState {
   first_name: string;
@@ -38,10 +39,14 @@ export const register = createAsyncThunk(
 
       const result = await response.json();
       console.log(result);
+
+      // Dispatch action to update the login state with registered user's info
+      thunkAPI.dispatch(setUser({ username: result.username, first_name: result.first_name, id: result.id }));
+
       return result;
     } catch (error) {
       console.error('Register error:', error);
-      return thunkAPI.rejectWithValue('Register failed user may already be taken');
+      return thunkAPI.rejectWithValue('Register failed, user may already be taken');
     }
   }
 );
@@ -71,7 +76,7 @@ const registerSlice = createSlice({
       state.last_name = action.payload.last_name;
       state.username = action.payload.username;
       state.email = action.payload.email;
-      state.password =  action.payload.password
+      state.password = action.payload.password;
     });
     builder.addCase(register.rejected, (state, action: PayloadAction<any>) => {
       state.isLoading = false;

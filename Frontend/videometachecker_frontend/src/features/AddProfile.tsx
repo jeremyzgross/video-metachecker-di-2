@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../App/store';
 import { addProfile } from './AddProfileSlice';
 import { VideoProfileFormData } from './AddProfileSlice';
+import '../styles/addProfiles.css';  // Import the CSS file
 
 const AddProfile: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -110,12 +111,13 @@ const AddProfile: React.FC = () => {
       ];
 
   return (
-    <>
-      <h3>Profile Form:</h3>
+    <div className="upload-container">
+      <h1>Profile Form</h1>
       <form onSubmit={handleSubmit}>
         <label>
           Profile Name:
-          <input type="text" name="profile_name" value={formData.profile_name ?? ''} onChange={handleInputChange} required/>
+          <input type="text" name="profile_name" value={formData.profile_name ?? ''}
+          onChange={handleInputChange} required/>
         </label>
         <br />
         <label>
@@ -143,7 +145,10 @@ const AddProfile: React.FC = () => {
         <br />
         <label>
           Field Order:
-          <input type="text" name="field_order" value={formData.field_order ?? ''} onChange={handleInputChange} />
+          <select name="field_order" value={formData.field_order ?? ''} onChange={handleInputChange}>
+            <option value="progressive">Progressive</option>
+            <option value="tb">Top Field First</option>
+          </select>
         </label>
         <br />
         <label>
@@ -200,12 +205,12 @@ const AddProfile: React.FC = () => {
           <input type="number" name="audio_bitrate_max" value={formData.audio_bitrate_max ?? ''} onChange={handleInputChange} />
           Kbps</label>
         <br />
-        <button type="submit">Submit Profile</button>
+        <input type="submit" value="Add Profile" />
       </form>
+      {successMessage && <p>{successMessage}</p>}
       {status === 'loading' && <p>Loading...</p>}
-      {status === 'succeeded' && successMessage && <p>{successMessage} Go back to dashboard to use</p>}
       {status === 'failed' && <p>Error: {error}</p>}
-    </>
+    </div>
   );
 };
 

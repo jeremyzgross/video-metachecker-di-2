@@ -24,9 +24,6 @@ const handleSubmit = async (e: React.FormEvent) => {
   }
 };
 
-  const handleLogout = () => {
-    dispatch(logout());
-  };
 
     return (
     <div>

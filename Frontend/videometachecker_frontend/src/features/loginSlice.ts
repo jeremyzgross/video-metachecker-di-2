@@ -40,17 +40,20 @@ export const login = createAsyncThunk(
   }
 );
 
-export const loginSlice = createSlice({
+const loginSlice = createSlice({
   name: 'login',
   initialState,
   reducers: {
     logout(state) {
-      // Reset the state to initial values
       Object.assign(state, initialState);
     },
     resetState(state) {
-      // Reset the state to initial values
       Object.assign(state, initialState);
+    },
+    setUser(state, action: PayloadAction<{ username: string; first_name: string; id: number }>) {
+      state.username = action.payload.username;
+      state.first_name = action.payload.first_name;
+      state.user_id = action.payload.id;
     },
   },
   extraReducers: (builder) => {
@@ -67,17 +70,13 @@ export const loginSlice = createSlice({
     builder.addCase(login.rejected, (state, action: PayloadAction<any>) => {
       state.isLoading = false;
       state.error = action.payload;
-      // Check if the error is due to server error (status code 500)
       if (action.payload && action.payload.status === 500) {
-        // Handle the server error, you can set error message or log error
         console.error('Server error:', action.payload);
-        // You can optionally dispatch an action to update the state or show an error message
-        // dispatch(someErrorAction());
       }
     });
   },
 });
 
-export const { logout } = loginSlice.actions;
+export const { logout, setUser } = loginSlice.actions;
 
 export default loginSlice.reducer;
